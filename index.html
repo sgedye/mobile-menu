@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <style type="text/css">
+
+      /* Using JS to toggle a CSS class to prevent scrolling while the menu is open */
+      body { margin: 0; }
+      body.no-scroll { overflow: hidden; }
+      h1 { margin: 0; padding-top: 100px; }
+
+      /*****************************************************/
+      /* NAVIGATION */
+      nav {
+        position: sticky;
+        top: 0;
+        height: 100px;
+        width: 100vw;
+        background-color: blueviolet;
+      }
+
+      /* NAVIGATION : Nav Links */
+      #nav-links {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        background: rgb(102, 9, 145);
+        height: 100vh;
+        width: 100%;
+        clip-path: circle(100px at 100vw 0vh);
+        transition: all 700ms ease-out;
+        pointer-events: none;
+      }
+      #nav-links.open {
+        clip-path: circle(300vw at 100vw 0vh);
+        pointer-events: all;
+      }
+
+      #nav-links > li { list-style: none; opacity: 0; }
+      #nav-links > li.fade { opacity: 1; }
+      #nav-links > li:nth-child(1) { transition: all 300ms ease 100ms; }
+      #nav-links > li:nth-child(2) { transition: all 300ms ease 200ms; }
+      #nav-links > li:nth-child(3) { transition: all 300ms ease 250ms; }
+
+      #nav-links a {
+        text-decoration: none;
+        font-size: 2em;
+        color: rgb(248, 157, 38);
+        padding: 33px;
+        transition: 1.2s all;
+      }
+      #nav-links a:hover {
+        color: white;
+        background-color: rgb(132, 0, 193, 255);
+      }
+
+      /* NAVIGATION : Hamburger Menu only shown on Mobile Devices ≤ 992px */
+      #hamburger {
+        position: absolute;
+        display: block;
+        padding: 3px 6px;
+        cursor: pointer;
+        right: 20px;
+        top: 20px;
+        z-index: 99;
+        transition: transform 800ms;
+      }
+      .line {
+        width: 30px;
+        height: 4px;
+        background: rgb(30, 190, 250);
+        border-radius: 2px;;
+        margin: 6px 0;
+        transition: all 800ms;
+      }
+      #hamburger.menu-open { 
+        transform: rotate(-90deg);
+        transform-origin: center;
+      }
+      #hb-top.menu-open {
+        transform: rotate(-45deg) translate(-4px, -3px);
+        width: 38px;
+        transform-origin: 100%;
+      }
+      #hb-middle.menu-open {
+        transform: rotate(-135deg) translate(-3px, -2px);
+        transform-origin: center;
+        width: 38px;
+      }
+      #hb-bottom.menu-open {
+        transform: rotate(-45deg) translate(-1px, 10px);
+        width: 38px;
+        transform-origin: 0%;
+      }
+
+      /*****************************************************/
+      /* NAVIGATION : Display on screens larger than 992px */
+      @media screen and (min-width: 992px) {
+      #nav-links {
+        flex-direction: row;
+        height: 100px;
+        clip-path: none;
+      }
+      #nav-links > li { opacity: 1;   pointer-events: all; }
+      #nav-links a { font-size: 20px; }
+      #hamburger { display: none; }
+      }
+
+
+      /*****************************************************/
+      /* Main Content */
+      section {
+        height: 50vh;
+        background-color: aquamarine;
+      }
+
+    </style>
+  </head>
+  <body id="body">
+    <nav>
+      <ul id="nav-links">
+        <li><a class="link" href="#home">Home</a></li>
+        <li><a class="link" href="#about">About</a></li>
+        <li><a class="link" href="#products">Products</a></li>
+        <li><a class="link" href="#services">Services</a></li>
+      </ul>
+      <div id="hamburger">
+        <div id="hb-top" class="line"></div>
+        <div id="hb-middle" class="line"></div>
+        <div id="hb-bottom" class="line"></div>
+      </div>
+    </nav>
+    <section id="home">
+      <h1>This is my homepage</h1>
+      <hr>
+    </section>
+    <section id="about">
+      <h1>All about me</h1>
+      <hr>
+    </section>
+    <section id="products">
+      <h1>These are our products</h1>
+      <hr>
+    </section>
+    <section id="services">
+      <h1>These are our services</h1>
+      <hr>
+    </section>
+
+    <script>
+    
+      /* JavaScript function to control the navigation */
+      const body = document.getElementById("body")
+      const hamburger = document.getElementById("hamburger")
+      const navLinks = document.getElementById("nav-links")
+      const navItems = document.querySelectorAll("#nav-links li")
+      const links = document.getElementsByClassName("link")
+
+      function navClicked() {          
+        body.classList.toggle("no-scroll")
+        navLinks.classList.toggle("open")
+        navItems.forEach(item => item.classList.toggle("fade"))
+        hamburger.classList.toggle("menu-open")
+        for (const slice of hamburger.children) {
+          slice.classList.toggle("menu-open")
+        }
+      }
+      
+      hamburger.addEventListener("click", () => navClicked())
+
+      for (const link of links) {
+        link.addEventListener("click", () => navClicked())
+      }
+      
+    </script>
+  </body>
+</html>
